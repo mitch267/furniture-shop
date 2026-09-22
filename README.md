@@ -32,3 +32,7 @@ The GitHub OAuth app callback must be:
 
 ## Deploy
 Replace the repository contents with this package and commit to `main`. The connected Cloudflare build should run `npx wrangler deploy` automatically.
+
+
+## v6 login fix
+The custom admin OAuth login now registers its callback listener before opening GitHub, validates the callback origin, reports popup blocking/closure errors visibly, and uses a same-origin postMessage callback.

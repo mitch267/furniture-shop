@@ -6,7 +6,7 @@ function cookieValue(request, name) {
 
 function callbackHtml(message) {
   const safe = JSON.stringify(message).replace(/</g, '\\u003c');
-  return `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CMS Login</title></head><body><p>Completing GitHub login…</p><script>(function(){var msg=${safe};if(window.opener){window.opener.postMessage(msg,'*');setTimeout(function(){window.close()},300)}else{document.body.innerHTML='<p>Login completed. You can close this window and return to the CMS.</p>'}})();<\/script></body></html>`;
+  return `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CMS Login</title></head><body><p>Completing GitHub login…</p><script>(function(){var msg=${safe};if(window.opener){window.opener.postMessage(msg,window.location.origin);setTimeout(function(){window.close()},300)}else{document.body.innerHTML='<p>Login completed. You can close this window and return to the CMS.</p>'}})();<\/script></body></html>`;
 }
 
 async function startAuth(request, env) {
@@ -45,9 +45,11 @@ async function finishAuth(request, env) {
     const detail = tokenData.error_description || tokenData.error || 'Token exchange failed';
     return new Response(callbackHtml('authorization:github:error:' + JSON.stringify({ message: detail })), { status: 400, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' }});
   }
-  const message = 'authorization:github:success:' + JSON.stringify({ token: tokenData.access_token, provider: 'github' });
-  return new Response(callbackHtml(message), { headers: {
-    'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store',
+  const token = encodeURIComponent(tokenData.access_token);
+  const destination = `${url.origin}/admin/#github_token=${token}`;
+  return new Response(null, { status: 302, headers: {
+    Location: destination,
+    'Cache-Control': 'no-store',
     'Set-Cookie': 'decap_oauth_state=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0'
   }});
 }
