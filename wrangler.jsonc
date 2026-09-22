@@ -3,9 +3,17 @@
   "name": "furniture-shop",
   "main": "src/worker.js",
   "compatibility_date": "2026-09-22",
+
+  "vars": {
+    "GITHUB_CLIENT_ID": "Ov23liWAROMyNZ3oq5TF",
+    "GITHUB_REPO_PRIVATE": "false"
+  },
+
   "assets": {
     "directory": "./public",
     "binding": "ASSETS",
-    "run_worker_first": ["/api/*"]
+    "run_worker_first": [
+      "/api/*"
+    ]
   }
 }
