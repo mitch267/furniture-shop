@@ -3,9 +3,9 @@ backend:
   repo: mitch267/furniture-shop
   branch: main
   # GitHub OAuth is handled by the Cloudflare Worker at /api/auth and /api/callback.
-  base_url: https://falling-morning-cd72.mmkoosaletse.workers.dev
+  base_url: https://furniture-shop.mmkoosaletse.workers.dev
   auth_endpoint: api/auth
-  site_domain: falling-morning-cd72.mmkoosaletse.workers.dev
+  site_domain: furniture-shop.mmkoosaletse.workers.dev
 
 media_folder: "assets/uploads"
 public_folder: "/assets/uploads"
