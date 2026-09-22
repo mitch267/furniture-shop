@@ -3,7 +3,7 @@
 Configured for:
 - GitHub repository: `mitch267/furniture-shop`
 - Cloudflare Worker: `falling-morning-cd72`
-- Production URL: `https://falling-morning-cd72.mmkoosaletse.workers.dev`
+- Production URL: `https://falling-morning-cd72.mmkoosaletse.workers.dev` 
 
 ## Repository structure
 - `src/worker.js` — GitHub OAuth backend for Decap CMS
