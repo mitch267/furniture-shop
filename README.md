@@ -1,48 +1,34 @@
-# Furniture Shop — Cloudflare Worker + Static Assets
+# Furniture Shop — Custom Store Manager v5
 
-Configured for:
-- GitHub repository: `mitch267/furniture-shop`
-- Cloudflare Worker: `falling-morning-cd72`
-- Production URL: `https://falling-morning-cd72.mmkoosaletse.workers.dev` 
+Configured for GitHub `mitch267/furniture-shop` and Cloudflare Worker `furniture-shop`.
 
-## Repository structure
-- `src/worker.js` — GitHub OAuth backend for Decap CMS
-- `public/` — storefront, CMS, product data and uploaded images
-- `wrangler.jsonc` — Cloudflare Worker + Static Assets configuration
-- `package.json` — Wrangler dependency and deployment scripts
+## What changed
+`/admin/` is now a custom shop-management dashboard instead of Decap's generic editor. It supports:
+- visual product list with images
+- add/edit/duplicate/delete products
+- drag-and-drop product ordering
+- drag-and-drop product image upload
+- sale toggle and sale price
+- stock and featured status
+- dedicated Specials view
+- store settings
+- GitHub publishing, which triggers the connected Cloudflare deployment
 
-## Replace the files in your GitHub repository
-Upload the CONTENTS of this package to the root of `mitch267/furniture-shop`.
-Do not place the whole package inside another folder.
+## Repository layout
+- `src/worker.js` — GitHub OAuth backend
+- `public/` — storefront/static assets
+- `public/admin/index.html` — custom store manager
+- `public/data/products.json` — product/store database
+- `wrangler.jsonc` — Cloudflare Worker config
 
-Your GitHub root should show `wrangler.jsonc`, `package.json`, `src`, and `public`.
+## Cloudflare secrets
+Keep these in Cloudflare Production Variables/Secrets:
+- `GITHUB_CLIENT_ID`
+- `GITHUB_CLIENT_SECRET` (Secret)
+- `GITHUB_REPO_PRIVATE=false`
 
-## Cloudflare Git build
-Connect `mitch267/furniture-shop` to the existing Worker `falling-morning-cd72`.
-Use the `main` branch.
+The GitHub OAuth app callback must be:
+`https://furniture-shop.mmkoosaletse.workers.dev/api/callback`
 
-Recommended build/deploy settings:
-- Root directory: `/` (repository root)
-- Build command: leave blank if Cloudflare permits it, otherwise `npm install`
-- Deploy command: `npx wrangler deploy`
-
-## Required Worker variables/secrets
-After the Worker deployment is active, add:
-- `GITHUB_CLIENT_ID` — your GitHub OAuth App Client ID
-- `GITHUB_CLIENT_SECRET` — your GitHub OAuth App Client Secret (store as Secret)
-- `GITHUB_REPO_PRIVATE` — `false` for a public repository, `true` for private
-
-Then redeploy.
-
-## GitHub OAuth App
-Homepage URL:
-`https://falling-morning-cd72.mmkoosaletse.workers.dev`
-
-Authorization callback URL:
-`https://falling-morning-cd72.mmkoosaletse.workers.dev/api/callback`
-
-## Admin
-Open:
-`https://falling-morning-cd72.mmkoosaletse.workers.dev/admin/`
-
-The CMS is already configured for `mitch267/furniture-shop` on branch `main`.
+## Deploy
+Replace the repository contents with this package and commit to `main`. The connected Cloudflare build should run `npx wrangler deploy` automatically.
